@@ -1,0 +1,4 @@
+#include layouts/header.htl
+<h1>Yo!</h1>
+#include layouts/footer.htl
+Yuh ya
