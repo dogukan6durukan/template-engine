@@ -1,12 +1,15 @@
 import { promises as fs } from 'fs';
 import { RULES } from './rules.js';
-import { Include } from './include.js';
+// import { Include } from './include.js';
+import { Utils } from './utils.js';
 
-export class Parser {
+export class Parser extends Utils {
 
-    constructor(src, title) {
+    constructor(src, title, variables) {
+      super();
       this.source = src;
       this.title = title;
+      this.variables = variables;
     }
 
     async getSource() {
@@ -21,78 +24,28 @@ export class Parser {
       }
     } 
     parse() {
-      // let tok;
       let source = this.source;
-      // let tokens = [];
-
       const lines = source.split("\n");
       for(let token of lines) {
         if(RULES.inc_directive.test(token)) {
-          // new Include().log();
           this.include(token);
-        }
-      }
-    }
-
-     async read(fileName) {
-          try {
-            const data = await fs.readFile(fileName, { encoding: 'utf8' });
-            return {
-              data : data,
-              file : fileName,
-              include : `#include ${fileName}`
-            }
-          } catch (err) {
-            console.error(err);
-          }
-        }
-        include(src) {
-          const inc = RULES.inc_directive;
-          const path = RULES.file_extension;
-    
-          if(typeof src === "string") {
-            let result = src.match(inc);
-            if(result) {
-              const file_paths = [];
-              for (let file of result) {
-                file_paths.push((file.match(path)[0]));
-              }
-    
-            if(file_paths.length > 0) {
-    
-              Promise.all(file_paths.map(filepath => this.read(filepath)))
-                .then(values => {
-                  this.replace(values[0]);
-                })
-                .catch(error => {
-                  console.error("Error reading files:", error);
-                });
-            }
-          } else {
-            // If there is no #include generate html directly
-            this.generateHTML(src);
-          }
-    
         } 
-      }
-      
-      replace(datas) {
-        this.source = this.source.replace(datas.include, datas.data);
-        this.generateHTML(this.source);
-      }
-    
-      async generateHTML(src) {
-        this.title === undefined ? this.title = "index" : this.title;
-        try {
-          await fs.writeFile(this.title+".html", src);
-        } catch (err) {
-          console.log(err);
+        else if(RULES.variable.test(token)) {
+          this.var(token);
         }
       }
+
+      // setTimeout(() => {
+      //   console.log(this.source);
+      // },3000)
+    } 
 
 }
 
 
-let cls = new Parser("index.htl");
+let cls = new Parser("index.htl","", {
+  anan : "Yildiz",
+  age : 15
+});
 await cls.getSource();
 cls.parse();
