@@ -1,27 +1,19 @@
 import { promises as fs } from 'fs';
 import { RULES } from './rules.js';
 
-
 class Variable {
     var(token) {
         let array;
         const regex = new RegExp(RULES.variable, "g");
-        console.log(Object.keys(this.variables));
 
-        // while ((array = regex.exec(token)) !== null) {
-        //     this.source = this.source.replace(array[0], array[]);
-        // }
-
-        
-        // * Don't do this in every iteration
-        // if(typeof this.variables === "object") {
-        //     const keys = Object.keys(this.variables)
-        //     // console.log(keys);
-        //     console.log(src_keys);
-        // } 
+        while ((array = regex.exec(token)) !== null) {
+          if(this.variables[array[2]]) {
+            this.source = this.source.replace(array[0], this.variables[array[2]]);
+          } else {
+            console.error("Undefined variable:", array[2]);
+          }
+        }
     }
-
-    // replace()
 }
 
 const Include = (Sup) => class extends Sup {
@@ -66,15 +58,15 @@ const Include = (Sup) => class extends Sup {
       replace(datas) {
         this.source = this.source.replace(datas.include, datas.data);
     }
-    
-      async generateHTML(src) {
-        this.title === undefined || "" ? this.title = "index" : this.title;
-        try {
-          await fs.writeFile(this.title+".html", src);
-        } catch (err) {
-          console.log(err);
-        }
-      }
 };
 
-export class Utils extends Include(Variable) {}
+export async function generateHTML(src, title) {
+  title === "undefined" || title === "" ? title = "index" : title;
+  try {
+    await fs.writeFile(title+".html", src);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export class Util extends Include(Variable) {}

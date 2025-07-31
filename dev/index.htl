@@ -1,6 +1,4 @@
 #include layouts/header.htl
-<h1>Naber la</h1>
+Merhaba {{isim}}, {{yil}}'nda doğdun.
 #include layouts/footer.htl
-Hello your name is {{anan}} and your age is {{age}}
-Hello your name is {{afsdf}} and your age is {{sdfsdffs}}
-ANANIN..
+{{durum}}

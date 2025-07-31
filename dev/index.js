@@ -1,9 +1,9 @@
 import { promises as fs } from 'fs';
 import { RULES } from './rules.js';
-// import { Include } from './include.js';
-import { Utils } from './utils.js';
+import { Util } from './util.js';
+import { generateHTML } from './util.js';
 
-export class Parser extends Utils {
+export class Parser extends Util {
 
     constructor(src, title, variables) {
       super();
@@ -32,20 +32,12 @@ export class Parser extends Utils {
         } 
         else if(RULES.variable.test(token)) {
           this.var(token);
-        }
+        } 
       }
 
-      // setTimeout(() => {
-      //   console.log(this.source);
-      // },3000)
+      setTimeout(() => {
+        generateHTML(this.source, this.title);
+      }, 100)
     } 
 
 }
-
-
-let cls = new Parser("index.htl","", {
-  anan : "Yildiz",
-  age : 15
-});
-await cls.getSource();
-cls.parse();
