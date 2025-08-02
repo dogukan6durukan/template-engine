@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import { RULES } from './rules.js';
+import { Parser } from './index.js';
 
 class Variable {
     var(token) {
@@ -46,7 +47,7 @@ const Include = (Sup) => class extends Sup {
     
               Promise.all(file_paths.map(filepath => this.read(filepath)))
                 .then(values => {
-                  this.replace(values[0]);
+                  this.replace(values[0])
                 })
                 .catch(error => {
                   console.error("Error reading files:", error);
@@ -55,9 +56,18 @@ const Include = (Sup) => class extends Sup {
           } 
         } 
       }
-      replace(datas) {
-        this.source = this.source.replace(datas.include, datas.data);
-    }
+
+      async replace(data) {
+        // !
+        // if(RULES.file_extension.test(data.data)) {
+        //   let match = data.data.match(RULES.file_extension);
+        //   let parser = new Parser(match[0], this.title, this.variables);
+        //   await parser.getSource();
+        //   parser.parse();
+        // }
+
+        // this.source = this.source.replace(data.include, data.data);
+      }
 };
 
 export async function generateHTML(src, title) {
@@ -65,7 +75,7 @@ export async function generateHTML(src, title) {
   try {
     await fs.writeFile(title+".html", src);
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 

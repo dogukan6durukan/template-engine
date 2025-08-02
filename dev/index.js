@@ -35,9 +35,12 @@ export class Parser extends Util {
         } 
       }
 
-      setTimeout(() => {
-        generateHTML(this.source, this.title);
-      })
-    } 
 
+      setTimeout(() => {
+        console.log(this.source);
+        // generateHTML(this.source, this.title);
+      }, 100)
+
+      
+    } 
 }
