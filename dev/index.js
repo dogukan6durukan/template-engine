@@ -37,7 +37,7 @@ export class Parser extends Util {
 
       setTimeout(() => {
         generateHTML(this.source, this.title);
-      }, 100)
+      })
     } 
 
 }
