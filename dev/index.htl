@@ -1,2 +1,4 @@
 #include layouts/header.htl
 #include layouts/footer.htl
+@dump fsdfsd {a b}
+@dump greet {}

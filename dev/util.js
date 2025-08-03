@@ -1,15 +1,49 @@
 import { promises as fs } from 'fs';
 import { RULES } from './rules.js';
-import { Parser } from './index.js';
 
-class Variable {
+class Dump {
+  dump(token) {
+    let txt = "";
+    let match = token.match(RULES.dump);
+    let arr = this.variables[match[1].trim()];
+
+    if(arr && Array.isArray(arr)) {
+      if(match[2] && match[2] !== "") {
+        let els = match[2].split(" ");
+        for(let el of arr) {
+          for(let data of els) {
+            if(el[data]) {
+               txt += "<li>"+el[data]+"</li>";
+            }
+            else {
+              console.error("Undefined identifier:", data);
+              return;
+            }
+          }
+        }
+        let result = "<ul>"+txt+"</ul>";
+        this.source = this.source.replace(match[0], result);
+        
+      } else {
+        for(let el of arr) {
+          txt += "<li>"+el+"</li>";
+        }
+        let result = "<ul>"+txt+"</ul>";
+        this.source = this.source.replace(match[0], result);
+      } 
+    }
+  }
+}
+
+const Variable = (Sup) => class extends Sup {
     var(token) {
         let array;
+        let variable = this.variables[array[2]];
         const regex = new RegExp(RULES.variable, "g");
 
         while ((array = regex.exec(token)) !== null) {
-          if(this.variables[array[2]]) {
-            this.source = this.source.replace(array[0], this.variables[array[2]]);
+          if(variable) {
+            this.source = this.source.replace(array[0], variable);
           } else {
             console.error("Undefined variable:", array[2]);
           }
@@ -57,16 +91,9 @@ const Include = (Sup) => class extends Sup {
         } 
       }
 
-      async replace(data) {
-        // !
-        // if(RULES.file_extension.test(data.data)) {
-        //   let match = data.data.match(RULES.file_extension);
-        //   let parser = new Parser(match[0], this.title, this.variables);
-        //   await parser.getSource();
-        //   parser.parse();
-        // }
-
-        // this.source = this.source.replace(data.include, data.data);
+      replace(data) {
+        // if(RULES.file_extension.test(data.data)) {}
+        this.source = this.source.replace(data.include, data.data);
       }
 };
 
@@ -79,4 +106,4 @@ export async function generateHTML(src, title) {
   }
 }
 
-export class Util extends Include(Variable) {}
+export class Util extends Include(Variable(Dump)) {}
