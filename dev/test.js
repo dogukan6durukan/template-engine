@@ -1,6 +1,7 @@
 import { Parser } from "./index.js";
 
 let cls = new Parser("index.htl","ornek", { 
+    title : "hello world",
     greet : ["hello", "hola", "merhaba"],
     fsdfsd : [
         {

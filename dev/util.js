@@ -36,14 +36,13 @@ class Dump {
 }
 
 const Variable = (Sup) => class extends Sup {
-    var(token) {
+var(token) {
         let array;
-        let variable = this.variables[array[2]];
         const regex = new RegExp(RULES.variable, "g");
 
         while ((array = regex.exec(token)) !== null) {
-          if(variable) {
-            this.source = this.source.replace(array[0], variable);
+          if(this.variables[array[2]]) {
+            this.source = this.source.replace(array[0], this.variables[array[2]]);
           } else {
             console.error("Undefined variable:", array[2]);
           }
