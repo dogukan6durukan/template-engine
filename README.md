@@ -77,6 +77,14 @@ Hello, Dogukan you are 19 years old!
 The general work you do is just enough as above, but the side note for `@dump` directive is you can only dump the array of values, and if you want to dump the array of objects like we did above can be achieved with `@dump array {objval1, objval2}`. But if you want to dump only the values without objects, just `@dump array {}` is enough.
 
 
-**Note:** For now, you can't do the same things under the child `.htl` files. E.g., you can't add dynamic values or include files under the child ones. It only works in base `.htl` like `index.htl` file that you compile. 
+**Note:** For now, you can't do the same things under the child `.htl` files. E.g., you can't add dynamic values or include files under the child ones. It only works in base `.htl` like `index.htl` file that you compile. Also added
+ternary operator but can be work unexpected.
 
-That's all. I also already have some plans to add a `for` loop to generate elements and `if` conditions. If you find any bugs and have some advice, I'm open to it.
+## TO DO:
+- [ ] Did ternary condition for quick and replacement for `if`. But can change single line to multiple like : `if() {}`. Also do it work as expected with language features.
+
+- [ ] Seperate the the single file of work to multiple to increase readability.
+
+- [ ] Create a tree to also parse child `.htl` files.
+
+- [ ] Add a `for` loop
