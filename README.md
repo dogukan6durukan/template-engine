@@ -78,10 +78,10 @@ The general work you do is just enough as above, but the side note for `@dump` d
 
 
 **Note:** For now, you can't do the same things under the child `.htl` files. E.g., you can't add dynamic values or include files under the child ones. It only works in base `.htl` like `index.htl` file that you compile. Also added
-ternary operator but can be work unexpected.
+ternary operator but can't be work unexpected for now.
 
 ## TO DO:
-- [ ] Did ternary condition for quick and replacement for `if`. But can change single line to multiple like : `if() {}`. Also do it work as expected with language features.
+- [ ] Did ternary condition for quick operation and replacement for `if`. But can change the single line to multiple like : `if() {}`. Also do it work as expected with template engine's features.
 
 - [ ] Seperate the the single file of work to multiple to increase readability.
 
